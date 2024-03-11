@@ -54,7 +54,7 @@ export default function CartProvider({ children }: PropsWithChildren) {
   };
 
   const total = items
-    .reduce((sum, item) => (sum += item.product.price) * item.quantity, 0)
+    .reduce((sum, item) => sum + item.product.price * item.quantity, 0)
     .toFixed(2);
 
   return (
