@@ -1,4 +1,3 @@
-import { Stack } from "expo-router";
 import { FlatList } from "react-native";
 
 import orders from "@assets/data/orders";
