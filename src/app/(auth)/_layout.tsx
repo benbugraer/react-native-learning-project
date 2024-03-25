@@ -1,6 +1,15 @@
-import { Stack } from "expo-router";
 import React from "react";
+import { Stack, Redirect } from "expo-router";
+import { useAuth } from "@/providers/AuthProviders";
 
-export default function AuthLayout() {
+const AuthLayout = () => {
+  const { session } = useAuth();
+
+  if (session) {
+    return <Redirect href={"/"} />;
+  }
+
   return <Stack />;
-}
+};
+
+export default AuthLayout;
