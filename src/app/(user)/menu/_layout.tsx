@@ -1,3 +1,4 @@
+import React from "react";
 import { Stack, Link } from "expo-router";
 import { StyleSheet, Pressable } from "react-native";
 import Colors from "@/constants/Colors";
