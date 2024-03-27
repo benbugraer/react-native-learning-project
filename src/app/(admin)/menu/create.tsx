@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@/components/Button";
 import { defaultPizzaImg } from "@/components/ProductListItem";
 import Colors from "@/constants/Colors";
@@ -8,7 +8,7 @@ import { View, Image, Text, StyleSheet, TextInput, Alert } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
-import { useInsertProduct } from "@/api/products";
+import { useInsertProduct, useProduct, useUpdateProduct } from "@/api/products";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
@@ -18,13 +18,23 @@ const CreateProductScreen = () => {
 
   const [errors, setErrors] = useState("");
 
-  const { id } = useLocalSearchParams();
-
-  const isUpdating = !!id;
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
+  const isUpdating = !!idString;
 
   const { mutate: insertProduct } = useInsertProduct();
+  const { mutate: updateProduct } = useUpdateProduct();
+  const { data: updatingProduct } = useProduct(id);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (updatingProduct) {
+      setName(updatingProduct.name);
+      setPrice(updatingProduct.price.toString());
+      setImage(updatingProduct.image);
+    }
+  }, [updatingProduct]);
 
   const resetFields = () => {
     setName("");
@@ -50,7 +60,7 @@ const CreateProductScreen = () => {
 
   const onSubmit = () => {
     if (isUpdating) {
-      onUpdateCreate();
+      onUpdate();
     } else {
       onCreate();
     }
@@ -90,15 +100,19 @@ const CreateProductScreen = () => {
       }
     );
   };
-  const onUpdateCreate = () => {
+  const onUpdate = () => {
     if (!validateInput()) {
       return;
     }
-
-    console.warn("Updating Product: ", name);
-
-    // Save in the database
-    resetFields();
+    updateProduct(
+      { id, name, price: parseFloat(price), image },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back;
+        },
+      }
+    );
   };
 
   const pickImage = async () => {
