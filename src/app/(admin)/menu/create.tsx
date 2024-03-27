@@ -1,12 +1,14 @@
+import React from "react";
 import Button from "@/components/Button";
 import { defaultPizzaImg } from "@/components/ProductListItem";
 import Colors from "@/constants/Colors";
 import { useState } from "react";
 import { View, Image, Text, StyleSheet, TextInput, Alert } from "react-native";
 
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
+import { useInsertProduct } from "@/api/products";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
@@ -19,6 +21,10 @@ const CreateProductScreen = () => {
   const { id } = useLocalSearchParams();
 
   const isUpdating = !!id;
+
+  const { mutate: insertProduct } = useInsertProduct();
+
+  const router = useRouter();
 
   const resetFields = () => {
     setName("");
@@ -72,10 +78,17 @@ const CreateProductScreen = () => {
       return;
     }
 
-    console.warn("Creating Product: ", name);
-
-    // Save in the database
-    resetFields();
+    // All file price could be a string but in there we need number for this reason we can use parseFloat
+    // and for this here price being a number.
+    insertProduct(
+      { name, price: parseFloat(price), image },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+        },
+      }
+    );
   };
   const onUpdateCreate = () => {
     if (!validateInput()) {

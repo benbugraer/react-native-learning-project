@@ -11,7 +11,6 @@ import React from "react";
 import products from "@assets/data/products";
 import { defaultPizzaImg } from "@/components/ProductListItem";
 import { useState } from "react";
-import Button from "@/components/Button";
 import { useCart } from "@/providers/CartProvider";
 import { PizzaSize } from "@/types";
 import { Route } from "expo-router";
