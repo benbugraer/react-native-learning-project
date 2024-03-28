@@ -13,13 +13,13 @@ import { useInsertProduct, useProduct, useUpdateProduct } from "@/api/products";
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-
   const [image, setImage] = useState<string | null>(null);
-
   const [errors, setErrors] = useState("");
 
   const { id: idString } = useLocalSearchParams();
-  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
+  const id = parseFloat(
+    typeof idString === "string" ? idString : idString?.[0]
+  );
   const isUpdating = !!idString;
 
   const { mutate: insertProduct } = useInsertProduct();
@@ -109,7 +109,7 @@ const CreateProductScreen = () => {
       {
         onSuccess: () => {
           resetFields();
-          router.back;
+          router.back();
         },
       }
     );
