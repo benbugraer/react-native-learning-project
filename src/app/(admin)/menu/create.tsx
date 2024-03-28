@@ -1,20 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { defaultPizzaImg } from "@/components/ProductListItem";
 import Colors from "@/constants/Colors";
-import { useState } from "react";
+
 import { View, Image, Text, StyleSheet, TextInput, Alert } from "react-native";
 
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
-import { useInsertProduct, useProduct, useUpdateProduct } from "@/api/products";
+import {
+  useDeleteProduct,
+  useInsertProduct,
+  useProduct,
+  useUpdateProduct,
+} from "@/api/products";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [errors, setErrors] = useState("");
+
+  const router = useRouter();
 
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(
@@ -24,9 +31,8 @@ const CreateProductScreen = () => {
 
   const { mutate: insertProduct } = useInsertProduct();
   const { mutate: updateProduct } = useUpdateProduct();
+  const { mutate: deleteProduct } = useDeleteProduct();
   const { data: updatingProduct } = useProduct(id);
-
-  const router = useRouter();
 
   useEffect(() => {
     if (updatingProduct) {
@@ -67,7 +73,12 @@ const CreateProductScreen = () => {
   };
 
   const onDelete = () => {
-    console.warn("Product Deleted");
+    deleteProduct(id, {
+      onSuccess: () => {
+        resetFields();
+        router.replace("/(admin)");
+      },
+    });
   };
 
   const confirmDelete = () => {
