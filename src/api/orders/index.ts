@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/providers/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
+import { InsertTables } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // This only for admin because we can say in this code select("*") mean select all orders.
 export const useAdminOrderList = ({ archived = false }) => {
@@ -55,6 +56,26 @@ export const useOrderDetails = (id: number) => {
         throw new Error(error.message);
       }
       return data;
+    },
+  });
+};
+
+export const useInsertOrder = () => {
+  const queryClient = useQueryClient();
+  const { session } = useAuth();
+  const userId = session?.user.id;
+
+  return useMutation({
+    async mutationFn(data: InsertTables<"orders">) {
+      const { error, data: newOrder } = await supabase
+        .from("orders")
+        .insert({ ...data, user_id: userId })
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return newOrder;
     },
   });
 };
