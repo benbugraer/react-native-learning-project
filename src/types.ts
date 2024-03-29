@@ -13,13 +13,13 @@ export type Product = {
 
 export type PizzaSize = "S" | "M" | "L" | "XL";
 
-export type CartItem = {
-  id: string;
-  product: Product;
-  product_id: number;
-  size: PizzaSize;
-  quantity: number;
-};
+// export type CartItem = {
+//   id: string;
+//   product: Product;
+//   product_id: number;
+//   size: PizzaSize;
+//   quantity: number;
+// };
 
 export const OrderStatusList: OrderStatus[] = [
   "New",

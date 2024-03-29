@@ -3,5 +3,26 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": []
+  "configurations": [
+    {
+      "type": "node",
+      "name": "vscode-jest-tests.v2.react-native-learn-project",
+      "request": "launch",
+      "args": [
+        "test",
+        "--",
+        "--runInBand",
+        "--watchAll=false",
+        "--testNamePattern",
+        "${jest.testNamePattern}",
+        "--runTestsByPath",
+        "${jest.testFile}"
+      ],
+      "cwd": "c:\\Users\\bugra\\OneDrive\\Masaüstü\\react-native-learn-project",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "runtimeExecutable": "npm"
+    }
+  ]
 }
