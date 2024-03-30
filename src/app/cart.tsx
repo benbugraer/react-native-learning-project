@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Platform, FlatList, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useCart } from "@/providers/CartProvider";
@@ -5,7 +6,7 @@ import CartListItem from "@/components/CartListItems";
 import Button from "@/components/Button";
 
 const CartScreen = () => {
-  const { items, total } = useCart();
+  const { items, total, checkout } = useCart();
 
   return (
     <View style={{ padding: 10 }}>
@@ -17,7 +18,7 @@ const CartScreen = () => {
 
       <Text style={styles.total}>Total: ${total}</Text>
 
-      <Button text="Checkout" />
+      <Button text="Checkout" onPress={checkout} />
 
       {/* Use a light status bar on Android to account for the black space above the modal */}
       <StatusBar style={Platform.OS === "android" ? "light" : "auto"} />
