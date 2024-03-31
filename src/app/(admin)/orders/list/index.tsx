@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ActivityIndicator, FlatList, Text } from "react-native";
 
 import OrderListItem from "@/components/OrderListItem";
 import { useAdminOrderList } from "@/api/orders";
-import { supabase } from "@/lib/supabase";
-import { useQueryClient } from "@tanstack/react-query";
 import { useInsertOrderSubscription } from "@/api/orders/subscription";
 
 export default function OrdersScreen() {
@@ -33,7 +31,4 @@ export default function OrdersScreen() {
       />
     </>
   );
-}
-function subscribe() {
-  throw new Error("Function not implemented.");
 }

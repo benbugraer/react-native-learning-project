@@ -14,13 +14,14 @@ import OrderListItem from "../../../components/OrderListItem";
 import Colors from "@/constants/Colors";
 import { OrderStatus, OrderStatusList } from "@/types";
 import { useOrderDetails, useUpdateOrder } from "@/api/orders";
+import { useUpdateOrderSubscription } from "@/api/orders/subscription";
 
 const OrderDetailScreen = () => {
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
 
   const { data: order, isLoading, error } = useOrderDetails(id);
-  const { mutate: updateOrder } = useUpdateOrder();
+  useUpdateOrderSubscription(id);
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -28,10 +29,6 @@ const OrderDetailScreen = () => {
   if (error || !order) {
     return <Text>Fetch failed to order details</Text>;
   }
-
-  const updateStatus = async (status: OrderStatus) => {
-    updateOrder({ id, status: status });
-  };
 
   return (
     <View style={styles.container}>
