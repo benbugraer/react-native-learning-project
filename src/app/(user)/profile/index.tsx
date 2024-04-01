@@ -8,6 +8,7 @@ export default function ProfileScreen() {
     <>
       <View style={styles.container}>
         <Text>Profile Screen Data Here</Text>
+        <Text>Username</Text>
       </View>
     </>
   );
@@ -15,7 +16,7 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#f4f4f4",
     flex: 1,
     alignItems: "center",
     paddingTop: 50,

@@ -1,6 +1,5 @@
 import React from "react";
 import { ActivityIndicator, FlatList, Text } from "react-native";
-
 import OrderListItem from "@/components/OrderListItem";
 import { useAdminOrderList } from "@/api/orders";
 import { useInsertOrderSubscription } from "@/api/orders/subscription";
